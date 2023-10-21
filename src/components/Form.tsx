@@ -1,13 +1,16 @@
 import { useState } from 'react'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import styles from './styles/form.module.css'
+import { useNavigate } from 'react-router-dom'
 
 const baseURL = "http://localhost:3000/api/"
 
 const Form = () => {
   const [user, setUser] = useState({nome: "", email: "", login: "", password: "" })
+  const navigate = useNavigate()
 
-  const registerUser = () => {
+  const registerUser = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
     axios.post(`${baseURL}register/`, {
       nome: user.nome,
@@ -15,8 +18,8 @@ const Form = () => {
       login: user.login,
       password: user.password
     })
-    .then((response: any) => {
-      setUser(response.data)
+    .then(() => {
+      navigate("/login")
     })
   }
 
